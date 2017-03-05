@@ -2,7 +2,7 @@
 Very simple API which allows you to perform actions in java, which would normally be impossible (ex: String searching, Module enumerating, Process Handle enumerating).
 
 ## Information
-- Only works on Windows;
+- Only works on Windows.
 - Only works under 64 bit operating systems.
 - Requires Java 8.
 
@@ -24,6 +24,10 @@ Very simple API which allows you to perform actions in java, which would normall
 
 ## How to compile(source):
 - It uses maven to handle it's dependencies.
-- Simply make a run configuration on your IDE of your choice and set the default goal to "clean install"
+- Simply make a run configuration on your IDE of your choice and set the default goal to "clean install".
+
+## Upcoming features:
+- Process modules enumerating.
+- Process handles enumerating.
 
 Credits: Ghose(buzznacker), Fyu.
