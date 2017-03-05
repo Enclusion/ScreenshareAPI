@@ -7,6 +7,7 @@ Very simple API which allows you to perform actions in java, which would normall
 - Requires Java 8.
 
 ## Usage example:
+
 	```java
 	ScreenshareTool sstool = new ScreenshareTool();
 	
