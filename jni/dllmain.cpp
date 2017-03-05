@@ -10,13 +10,17 @@
 VOID StringSearch(DWORD pId, std::vector<std::string> strings)
 {
 	HANDLE hProcess;
-	INT returnType;
 	BYTE *address;
 	MEMORY_BASIC_INFORMATION memoryInfo;
 
 	hProcess = OpenProcess(PROCESS_VM_READ | PROCESS_QUERY_INFORMATION, FALSE, pId);
-	returnType = 0;
 	address = 0;
+
+	if (INVALID_HANDLE_VALUE == hProcess)
+	{
+		std::cout << "Cannot access the target process." << std::endl;
+		return;
+	}
 
 	while (VirtualQueryEx(hProcess, address, &memoryInfo, sizeof(memoryInfo)) == sizeof(memoryInfo))
 	{
@@ -24,17 +28,18 @@ VOID StringSearch(DWORD pId, std::vector<std::string> strings)
 
 		BYTE *buffer = (BYTE *)malloc(memoryInfo.RegionSize);
 
-		if (memoryInfo.State == MEM_COMMIT && memoryInfo.Type == MEM_PRIVATE)
+		if (memoryInfo.Protect != PAGE_NOACCESS && memoryInfo.State == MEM_COMMIT && memoryInfo.Type == MEM_PRIVATE)
 		{
-			ReadProcessMemory(hProcess, address, buffer, memoryInfo.RegionSize, 0);
-
-			for (int i = 0; i < memoryInfo.RegionSize - 4; i++)
+			if (ReadProcessMemory(hProcess, address, buffer, memoryInfo.RegionSize, 0))
 			{
-				for (int j = 0; j < strings.size(); j++)
+				for (int i = 0; i < memoryInfo.RegionSize - 4; i++)
 				{
-					if (memcmp(&buffer[i], &strings[j], strings[j].length()) == 0)
+					for (int j = 0; j < strings.size(); j++)
 					{
-						std::cout << "found string #" << j << " in the memory" << std::endl;
+						if (memcmp(&buffer[i], &strings[j], strings[j].length()) == 0)
+						{
+							std::cout << "found string #" << j << " in the memory" << std::endl;
+						}
 					}
 				}
 			}
