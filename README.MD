@@ -18,7 +18,6 @@ Very simple API which allows you to perform actions in java, which would normall
 	sstool.setpId(pId);
 	
 	sstool.searchString(new String[] {"faosijdoiwoai", "MasterManthe", "TehNeon"});
-	
 	```
 
 ## How to compile(source):
