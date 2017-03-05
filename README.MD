@@ -12,8 +12,9 @@ Very simple API which allows you to perform actions in java, which would normall
 	
 	int pId = sstool.getProcIdByWindowName("Minecraft 1.7.10");
 	
-	if(pId == -1)
+	if(pId == -1) {
 		throw new RuntimeException("An error has occurred while attempting to get the process' pId");
+	}
 	
 	sstool.setpId(pId);
 	
