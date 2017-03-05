@@ -6,8 +6,8 @@ Very simple API which allows you to perform actions in java, which would normall
 - Only works under 64 bit operating systems.
 - Requires Java 8.
 
-## Usage example:
-
+## How to use:
+- Add ScreenshareTool.jar as a dependency to your project.
 	```java
 	ScreenshareTool sstool = new ScreenshareTool();
 	
