@@ -10,7 +10,7 @@ public class ScreenshareTool {
             System.exit(0);
         }
         try {
-            System.loadLibrary("DllStringSearcher");
+            System.loadLibrary("SSLibrary");
         } catch (UnsatisfiedLinkError | NullPointerException e) {
             System.err.println("Cannot find the library make sure \"SSLibrary.dll\" is in the same path.");
             System.exit(0);
