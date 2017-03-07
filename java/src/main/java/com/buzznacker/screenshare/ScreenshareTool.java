@@ -17,9 +17,19 @@ public class ScreenshareTool {
         }
     }
 
-    private native void searchString(String[] strings);
+    /*public static void main(String[] args) {
+        ScreenshareTool sstool = new ScreenshareTool();
 
-    private native void setSelectedPid(int pId);
+        int pid = sstool.getProcessByNameAndWindowTitle("javaw.exe", "Minecraft 1.7.10");
+
+        sstool.setSelectedPid(pid);
+
+        sstool.searchString(new String[] {"mememe", "Minecraft"});
+    } */
+
+    public native void searchString(String[] strings);
+
+    public native void setSelectedPid(int pId);
 
     public native String[] getProcessHandles();
 
