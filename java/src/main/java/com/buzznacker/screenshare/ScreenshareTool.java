@@ -1,22 +1,8 @@
 package com.buzznacker.screenshare;
 
-import com.sun.jna.Native;
-import com.sun.jna.platform.win32.*;
-import com.sun.jna.platform.win32.Tlhelp32.PROCESSENTRY32;
-import com.sun.jna.platform.win32.WinDef.DWORD;
-import com.sun.jna.platform.win32.WinDef.HWND;
-import com.sun.jna.platform.win32.WinNT.HANDLE;
-import com.sun.jna.ptr.IntByReference;
-
 import javax.swing.*;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 public class ScreenshareTool {
-
-    private int selectedPid = 0;
 
     public ScreenshareTool() {
         if(!System.getProperty("sun.arch.data.model").equals("64")) {
@@ -31,70 +17,25 @@ public class ScreenshareTool {
         }
     }
 
-    public void setpId(int pId) {
-        this.selectedPid = pId;
-        setSelectedPid(pId);
-    }
+    /*public static void main(String[] args) {
+        ScreenshareTool sstool = new ScreenshareTool();
 
-    public void stringSearch(String[] args) {
-        if(selectedPid == 0)
-            System.out.println("There must be a selected PID in order to be able to search a string");
-        else
-            searchString(args);
-    }
+        int pid = sstool.getProcessByNameAndWindowTitle("javaw.exe", "Minecraft 1.7.10");
 
-    public int getProcIdByWindowName(String name) {
-        List<HWND> wHandles = getProcsByWindowNames(name);
-        if(wHandles.size() != 1)
-            return -1;
+        sstool.setSelectedPid(pid);
 
-        HWND wHandle = wHandles.get(0);
-        IntByReference intRef = new IntByReference();
-        User32.INSTANCE.GetWindowThreadProcessId(wHandle, intRef);
+        sstool.searchString(new String[] {"mememe", "Minecraft"});
+    } */
 
-        return intRef.getValue();
-    }
+    public native void searchString(String[] strings);
 
-    private List<HWND> getProcsByWindowNames(String name) {
-        final User32 USER32 = User32.INSTANCE;
+    public native void setSelectedPid(int pId);
 
-        List<HWND> windows = new ArrayList<>();
+    public native String[] getProcessHandles();
 
-        USER32.EnumWindows((hwnd, pointer) -> {
-            char[] windowText = new char[512];
-            USER32.GetWindowText(hwnd, windowText, 512);
-            String wText = Native.toString(windowText);
-            if(wText.equals(name))
-                windows.add(hwnd);
-            return true;
-        }, null);
+    public native int getSelectedPid();
 
-        return windows;
-    }
+    public native int getProcessByNameAndWindowTitle(String processName, String windowName);
 
-    public Set<Integer> findProcessIdByName(String name) {
-        Kernel32 kernel32 = Kernel32.INSTANCE;
-
-        PROCESSENTRY32.ByReference processEntry = new PROCESSENTRY32.ByReference();
-
-        HANDLE snapShot = kernel32.CreateToolhelp32Snapshot(Tlhelp32.TH32CS_SNAPPROCESS, new DWORD(0));
-
-        Set<Integer> pids = new HashSet<>();
-
-        while (kernel32.Process32Next(snapShot, processEntry)) {
-            if(Native.toString(processEntry.szExeFile).equals(name))
-                pids.add(processEntry.th32ProcessID.intValue());
-        }
-
-        kernel32.CloseHandle(snapShot);
-        return pids;
-    }
-
-    public int getSelectedPid() {
-        return selectedPid;
-    }
-
-    private native void searchString(String[] strings);
-
-    private native void setSelectedPid(int pId);
+    public native int getProcessIdByName(String processName);
 }

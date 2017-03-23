@@ -11,15 +11,18 @@ Very simple API which allows you to perform actions in java, which would normall
 	```java
 	ScreenshareTool sstool = new ScreenshareTool();
 	
-	int pId = sstool.getProcIdByWindowName("Minecraft 1.7.10");
+	int pId = sstool.getProcessByNameAndWindowTitle("javaw.exe", "Minecraft 1.7.10");
 	
 	if(pId == -1) {
 		throw new RuntimeException("An error has occurred while attempting to get the process' pId");
 	}
 	
-	sstool.setpId(pId);
+	sstool.setSelectedPid(pId);
 	
 	sstool.searchString(new String[] {"faosijdoiwoai", "MasterManthe", "TehNeon"});
+	
+	for(String handleName : sstool.getProcessHandles())
+		System.out.println(handleName);
 	```
 
 ## How to compile(source):
